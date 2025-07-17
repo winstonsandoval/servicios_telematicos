@@ -1,0 +1,34 @@
+Informe Práctica 1.2 - Servidor de Nombres de Dominio (DNS)
+
+Nombre: Winston Edwin Sandoval Echeverry
+Código: 2220053
+Fecha: 2025-07-16
+
+Durante esta práctica configuré un servidor DNS utilizando BIND en una máquina virtual basada en Ubuntu,
+en el entorno de Vagrant. El objetivo fue comprender el funcionamiento del sistema de nombres de dominio (DNS),
+su configuración básica, zonas directas e inversas, verificación local y remota, así como el uso de herramientas
+complementarias como dig, host, whois y Wireshark.
+
+Primero configuré el archivo named.conf.local para definir una zona directa con el dominio sandoval.com y una zona
+inversa correspondiente a la IP 192.168.50.3. Creé los archivos db.sandoval.com y db.192 donde agregué los registros
+necesarios, incluyendo tres Resource Records (mail, ftp, ns) y un alias (web) apuntando a mail.
+
+Después de reiniciar el servicio BIND con systemctl, verifiqué que el servicio estuviera activo. Para probar la resolución, edité el archivo
+/etc/resolv.conf en el servidor para que usara 127.0.0.1 como nameserver y utilicé los comandos dig y host para consultar web.sandoval.com,
+mail.sandoval.com y ftp.sandoval.com. Todos resolvieron correctamente.
+
+En el cliente, configuré también /etc/resolv.conf para usar como nameserver la IP del servidor (192.168.50.3). Realicé consultas similares con
+dig y confirmé que la resolución funcionaba correctamente desde otra máquina.
+
+Adicionalmente instalé la herramienta whois para consultar información de dominio de sitios como google.com y facebook.com. Con Wireshark capturé
+tráfico DNS filtrando por dns o udp.port==53 mientras accedía a www.uao.edu.co desde el navegador.
+
+También realicé resoluciones inversas, creando los registros PTR correspondientes en db.192 para que las IPs 192.168.50.3, .4 y .5 resolvieran a 
+ns.sandoval.com, mail.sandoval.com y ftp.sandoval.com respectivamente.
+
+Finalmente, subí el archivo del informe y los archivos de configuración utilizados al repositorio de GitHub en la carpeta Practica0, dentro de la 
+rama mispracticas.
+
+Con esta práctica reforcé mis conocimientos en administración de servidores DNS, configuración de zonas, y uso de herramientas de diagnóstico de red,
+consolidando mi capacidad para desplegar servicios básicos de red en entornos virtualizados.
+
